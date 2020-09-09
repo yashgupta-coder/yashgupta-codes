@@ -1,0 +1,44 @@
+#For this program to run successfully, we need to use two library, smtplib and random. Random is a pre-installed library but smtplib has to be installed externally.
+#To install smtplib, open command prompt and type: 'pip install smtplib'
+#Library will be installed
+import smtplib
+import random
+
+#'no' will be the program generated OTP which will be mailed to the user
+no=random.randint(100000,999999)
+
+#'no' should be converted into string format.
+no=str(no)
+
+#Let's prepare the text which has to be mailed to user.
+text="DEAR USER,\nYOUR OTP TO RESET YOUR ACCOUNT PIN IS "+no+"\nREGARDS,\nYASHGUPTA-CODER."
+
+#'text' is again converted into string to be confirmed (can be ignored)
+text=str(text)
+
+
+server=smtplib.SMTP_SSL('smtp.gmail.com',465)
+
+#In the following code, 'a' is the sender's email ID and 'b' is the sender's email password.
+server.login('a','b')
+
+#In the following code, 'a' is the sender's email ID and 'c' is the receiver's email ID.
+server.sendmail('a','c',text)
+server.quit()
+#Mail has been successfully sent. If any error, mail us on: yashg7838@gmail.com
+
+#Now we have to check OTP so let's convert 'no' into integer.
+no=int(no)
+
+#Let us take the OTP from the user
+print("---------------------")
+print("*********************")
+otp=int(input("PLEASE ENTER THE OTP:"))
+print("*********************")
+print("---------------------")
+
+#Let us check the OTP
+if otp==no:
+    print("OTP is correct")
+else:
+    print("Incorrect OTP")
