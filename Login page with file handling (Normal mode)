@@ -1,0 +1,67 @@
+'''
+This code is for a text file. Filename: test_file.txt
+File content:
+
+CODER GUPTA
+password
+
+'''
+
+#We will first read the content of the text file and store them in variables.
+file=open("test_file.txt","r")
+
+#Used to readlines in text file.
+lines=file.readlines()
+
+#Storing first line with a variable 'user'.
+user=lines[0]
+
+#Storing second line with a variable 'password'.
+password=lines[1]
+
+#Closing the file
+file.close()
+
+#In this program, if the user enters invalid credentials for 3 times, he/she will not be able to login.
+
+#'x' variable will be used to count the number of attempts user has made to LOGIN.
+x=1
+
+#'c' variable will be used to exit/continue the program.
+c=0
+
+while x<=3 and c==0:
+    #Taking input of user's name and password
+    print("****************")
+    print("----------------")
+    user_name=input("ENTER YOUR NAME:")
+    user_name=user_id.upper()
+    print("----------------")
+    print("****************")
+    print()
+    print("****************")
+    print("----------------")
+    user_password=input("ENTER PASSWORD:")
+    print("----------------")
+    print("****************")
+    
+    #Checking their information.
+    if user_name==user and user_password==password:
+        print("LOGIN SUCCESSFUL")
+        print("PLEASE PROCEED")
+        c=1
+    else:
+        print("INCORRECT CREDENTIALS")
+        print("PLEASE TRY AGAIN")
+        print()
+        c=0
+        x=x+1
+
+#To inform user that he/she cannot try again.
+if x>3:
+    print("YOU HAVE ENTERED WRONG DETAILS 3 TIMES. YOU CANNOT TRY AGAIN.")
+    
+
+
+#This code will surely work properly. If you get any error, I'm just a mail away. Mail me a screenshot of the error on yashg7838@gmail.com 
+#Thank You. :D
