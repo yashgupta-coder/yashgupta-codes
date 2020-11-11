@@ -1,0 +1,376 @@
+'''
+MODULES INSTALLED EXTERNALLY: mysql.coonector
+ERROR IN PROGRAM ON DATE 12/11/2020: DO NOT SAVE EDITED DATA IN MySQL
+ERROR CORRECTION ON: YET TO BE UPDATED
+'''
+
+import mysql.connector
+import sys
+
+con=mysql.connector.connect(host="localhost",
+                            user="root",
+                            passwd="30082003",
+                            database="school")
+
+if con.is_connected():
+    print("Connection successfully established.")
+print("-------------------------------------------------------")
+print("*******************************************************")
+print("THIS IS MENU DRIVEN PROGRAM OF PYTHON - MySQL CONNECTOR")
+print("*******************************************************")
+print("-------------------------------------------------------")
+print()
+cur=con.cursor()
+def header():
+    print("----------------------------------")
+    print("**********************************")
+    print("PLEASE SELECT YOUR CHOICE")
+    print("1) ADD RECORD")
+    print("2) DELETE RECORD")
+    print("3) SEARCH RECORD")
+    print("4) EDIT RECORD")
+    print("5) SEE ALL RECORDS")
+    print("6) EXIT PROGRAM")
+    choice=input("ENTER YOUR CHOICE NUMBER:")
+    print("**********************************")
+    print("----------------------------------")
+    print()
+    try:
+        choice=int(choice)
+    except Exception:
+        print("----------------")
+        print("****************")
+        print("INCORRECT CHOICE")
+        print("****************")
+        print("----------------")
+        print()
+        header()
+    if choice==1:
+        add_record()
+    elif choice==2:
+        del_record()
+    elif choice==3:
+        ser_record()
+    elif choice==4:
+        edi_record()
+    elif choice==5:
+        all_record()
+    elif choice==6:
+        exi_prog()
+    else:
+        print("----------------")
+        print("****************")
+        print("INCORRECT CHOICE")
+        print("****************")
+        print("----------------")
+        print()
+        header()
+
+
+
+def add_record():
+    global cur
+    print("---------------")
+    print("***************")
+    print("ADD RECORD MENU")
+    print("***************")
+    print("---------------")
+    print()
+    roll_no=input("ENTER ROLL NUMBER:")
+    try:
+        roll_no=int(roll_no)
+        print()
+    except Exception:
+        print("-----------------")
+        print("*****************")
+        print("INCORRECT ROLL NO")
+        print("*****************")
+        print("-----------------")
+        print()
+        add_record()
+    name=input("ENTER NAME:")
+    print()
+    marks=input("ENTER MARKS (OUT OF 100):")
+    try:
+        marks=int(marks)
+        marks<=100
+    except Exception:
+        print("---------------")
+        print("***************")
+        print("INCORRECT MARKS")
+        print("***************")
+        print("---------------")
+        print()
+        add_record()
+    try:
+        query="insert into student values(%s,'%s',%s)"%(roll_no,name,marks)
+        cur.execute(query)
+        con.commit()
+        print("------------")
+        print("************")
+        print("DATA ENTERED")
+        print("************")
+        print("------------")
+        print()
+        header()
+    except Exception as e:
+        print("-----")
+        print("*****")
+        print("ERROR")
+        print("*****")
+        print("-----")
+        print()
+        print("ERROR:",e)
+        print()
+        add_record()
+
+
+
+def del_record():
+    print("------------------")
+    print("******************")
+    print("DELETE RECORD MENU")
+    print("******************")
+    print("------------------")
+    print()
+    roll_no=input("ENTER ROLL NUMBER:")
+    try:
+        roll_no=int(roll_no)
+        print()
+    except Exception:
+        print("-----------------")
+        print("*****************")
+        print("INCORRECT ROLL NO")
+        print("*****************")
+        print("-----------------")
+        print()
+        del_record()
+    try:
+        query="delete from student where rollno=%s"%(roll_no)
+        cur.execute(query)
+        con.commit()
+        print("--------------------------")
+        print("**************************")
+        print("RECORD DELETED SUCCESSFULY")
+        print("**************************")
+        print("--------------------------")
+        print()
+        header()
+    except Exception as e:
+        print("-----")
+        print("*****")
+        print("ERROR")
+        print("*****")
+        print("-----")
+        print()
+        print("ERROR:",e)
+        print()
+        del_record()
+
+
+
+def ser_record():
+    print("------------------")
+    print("******************")
+    print("SEARCH RECORD MENU")
+    print("******************")
+    print("------------------")
+    print()
+    roll_no=input("ENTER ROLL NUMBER:")
+    try:
+        roll_no=int(roll_no)
+        print()
+    except Exception:
+        print("-----------------")
+        print("*****************")
+        print("INCORRECT ROLL NO")
+        print("*****************")
+        print("-----------------")
+        print()
+        ser_record()
+    try:
+        query="select * from student where rollno=%s"%(roll_no)
+        record=cur.execute(query)
+        for i in cur:
+            print(i)
+        print()
+        header()
+    except Exception as e:
+        print("-----")
+        print("*****")
+        print("ERROR")
+        print("*****")
+        print("-----")
+        print()
+        print("ERROR:",e)
+        print()
+        del_record()
+
+
+
+def edi_record():
+    print("----------------")
+    print("****************")
+    print("EDIT RECORD MENU")
+    print("****************")
+    print("----------------")
+    print()
+    choice=input("WHAT YOU WANT TO EDIT?(ROLLNO/NAME/MARKS):")
+    print()
+    if choice=="ROLLNO" or choice=="rollno":
+        name=input("ENTER NAME:")
+        print()
+        roll_no=input("ENTER NEW ROLL NUMBER:")
+        try:
+            roll_no=int(roll_no)
+            print()
+        except Exception:
+            print()
+            print("-----------------")
+            print("*****************")
+            print("INCORRECT ROLL NO")
+            print("*****************")
+            print("-----------------")
+            print()
+            edi_record()
+        try:
+            query="update student set rollno=%s where name='%s'"%(roll_no,name)
+            cur.execute(query)
+            con.commit
+            print("--------------")
+            print("**************")
+            print("RECORD UPDATED")
+            print("**************")
+            print("--------------")
+            print()
+            header()
+        except Exception as e:
+            print("------------------")
+            print("******************")
+            print("SOME ERROR OCCURED")
+            print("******************")
+            print("------------------")
+            print()
+            print("ERROR:",e)
+            print()
+            edi_record()
+    elif choice=="NAME" or choice=="name":
+        roll_no=input("ENTER ROLL NUMBER:")
+        print()
+        name=input("ENTER NEW NAME:")
+        try:
+            roll_no=int(roll_no)
+            print()
+        except Exception:
+            print()
+            print("-----------------")
+            print("*****************")
+            print("INCORRECT ROLL NO")
+            print("*****************")
+            print("-----------------")
+            print()
+            edi_record()
+        try:
+            query="update student set name='%s' where rollno=%s"%(name,roll_no)
+            cur.execute(query)
+            con.commit
+            print("--------------")
+            print("**************")
+            print("RECORD UPDATED")
+            print("**************")
+            print("--------------")
+            print()
+            header()
+        except Exception as e:
+            print("------------------")
+            print("******************")
+            print("SOME ERROR OCCURED")
+            print("******************")
+            print("------------------")
+            print()
+            print("ERROR:",e)
+            print()
+            edi_record()
+    elif choice=="MARKS" or choice=="marks":
+        roll_no=input("ENTER ROLL NUMBER:")
+        print()
+        mark=input("ENTER NEW MARKS:")
+        try:
+            roll_no=int(roll_no)
+            print()
+        except Exception:
+            print()
+            print("-----------------")
+            print("*****************")
+            print("INCORRECT ROLL NO")
+            print("*****************")
+            print("-----------------")
+            print()
+            edi_record()
+        try:
+            mark=int(mark)
+            mark<=100
+        except Exception as e:
+            print("---------------")
+            print("***************")
+            print("INCORRECT MARKS")
+            print("***************")
+            print("---------------")
+            print()
+            print(e)
+            edi_record()
+        try:
+            query="update student set marks=%s where rollno=%s"%(mark,roll_no)
+            cur.execute(query)
+            con.commit
+            print("--------------")
+            print("**************")
+            print("RECORD UPDATED")
+            print("**************")
+            print("--------------")
+            print()
+            header()
+        except Exception as e:
+            print("------------------")
+            print("******************")
+            print("SOME ERROR OCCURED")
+            print("******************")
+            print("------------------")
+            print()
+            print("ERROR:",e)
+            print()
+            edi_record()
+
+
+
+def all_record():
+    query="select * from student"
+    cur.execute(query)
+    print("RECORDS:")
+    for i in cur:
+        print(i)
+    print()
+    header()
+  
+  
+def exi_prog():
+    print("------------------------------")
+    print("******************************")
+    print("ARE YOU SURE YOU WANT TO EXIT?")
+    choice=input("ENTER CHOICE (Y/N):")
+    print("******************************")
+    print("------------------------------")
+    if choice=="Y" or choice=="y":
+        exit()
+    elif choice=="N" or choice=="n":
+        header()
+    else:
+        print("---------------")
+        print("***************")
+        print("INCORRECT INPUT")
+        print("***************")
+        print("---------------")
+        print()
+        
+        
+header()
