@@ -9,7 +9,7 @@ import sys
 
 con=mysql.connector.connect(host="localhost",
                             user="root",
-                            passwd="30082003",
+                            passwd=a,    #Enter password of your MySQL instead of 'a'
                             database="school")
 
 if con.is_connected():
